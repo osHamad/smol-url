@@ -1,0 +1,26 @@
+{
+  "name": "smol-url",
+  "version": "1.0.0",
+  "description": "a simple web url shortener",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osHamad/smol-url.git"
+  },
+  "author": "osama hamad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osHamad/smol-url/issues"
+  },
+  "homepage": "https://github.com/osHamad/smol-url#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.14",
+    "nodemon": "^2.0.15"
+  }
+}
