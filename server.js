@@ -1,6 +1,8 @@
 // importing requirements for server
 const express = require('express')
 const mongoose = require('mongoose')
+const linkRouter = require('./routes/links')
+const link = require('./models/shortLink.model')
 
 // setting up environment
 require('dotenv').config()
@@ -10,8 +12,9 @@ const PORT = process.env.PORT
 // initializing express application
 const app = express()
 
-// use middleware
+// uses
 app.use(express.json())
+app.use('/shorten', linkRouter)
 
 // set view engine to ejs
 app.set('views', __dirname + '/views')
@@ -19,8 +22,18 @@ app.set('view engine', 'ejs')
 
 // get the main page
 app.get('/', (req, res)=>{
-    res.render('index.ejs')
+    res.redirect('http://localhost:5000/shorten')
 })
+
+// find short link in database then redirect to original
+app.get('/:short', async (req, res)=>{
+    original = await link.findOne(
+        { short: req.params.short }
+    )
+
+    res.redirect(original['original'])
+})
+
 
 // connecting to database
 mongoose.connect(URI, {
