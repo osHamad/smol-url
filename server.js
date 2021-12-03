@@ -30,10 +30,8 @@ app.get('/:short', async (req, res)=>{
     original = await link.findOne(
         { short: req.params.short }
     )
-
     res.redirect(original['original'])
 })
-
 
 // connecting to database
 mongoose.connect(URI, {
