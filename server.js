@@ -7,7 +7,7 @@ const link = require('./models/shortLink.model')
 // setting up environment
 require('dotenv').config()
 const URI = process.env.URI
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 
 // initializing express application
 const app = express()
