@@ -41,9 +41,15 @@ mongoose.connect(URI, {
 })
 const db = mongoose.connection
 
+db.on('error', ()=>{
+    console.log('error occured connecting to db')
+})
+
+app.listen(PORT, ()=>{
+    console.log('listening on port:', PORT)
+})
+
 // starting server
 db.once('open', ()=>{
-    app.listen(PORT, ()=>{
-        console.log('listening on port:', PORT)
-    })
+    console.log('connected to db')
 })
