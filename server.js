@@ -27,29 +27,29 @@ app.get('/', (req, res)=>{
     res.redirect('http://localhost:5000/shorten')
 })
 
-// find short link in database then redirect to original
-app.get('/:short', async (req, res)=>{
-    original = await link.findOne(
-        { short: req.params.short }
-    )
-    res.redirect(original['original'])
-})
+// // find short link in database then redirect to original
+// app.get('/:short', async (req, res)=>{
+//     original = await link.findOne(
+//         { short: req.params.short }
+//     )
+//     res.redirect(original['original'])
+// })
 
-// connecting to database
-mongoose.connect(URI, {
-    useNewUrlParser: true
-})
-const db = mongoose.connection
+// // connecting to database
+// mongoose.connect(URI, {
+//     useNewUrlParser: true
+// })
+// const db = mongoose.connection
 
-db.on('error', ()=>{
-    console.log('error occured connecting to db')
-})
+// db.on('error', ()=>{
+//     console.log('error occured connecting to db')
+// })
 
 app.listen(PORT, ()=>{
     console.log('listening on port:', PORT)
 })
 
-// starting server
-db.once('open', ()=>{
-    console.log('connected to db')
-})
+// // starting server
+// db.once('open', ()=>{
+//     console.log('connected to db')
+// })
