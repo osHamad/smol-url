@@ -20,6 +20,8 @@ app.use('/shorten', linkRouter)
 app.set('views', __dirname + '/views')
 app.set('view engine', 'ejs')
 
+app.use(express.static(__dirname + '/static'))
+
 // get the main page
 app.get('/', (req, res)=>{
     res.redirect('http://localhost:5000/shorten')
