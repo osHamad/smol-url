@@ -5,7 +5,7 @@ document.getElementById('converter').addEventListener('click', ()=>{
     if (!validURL(originalLink)) return resp.innerText = 'not valid'
     const shortLink = generateShort(4)
     axios.post('/shorten', {original:originalLink, short:shortLink})
-        .then(resp.innerText=shortLink)
+        .then(resp.innerText=window.location.protocol+'//'+window.location.host+'/'+shortLink)
 })
 
 function generateShort(length) {
@@ -14,7 +14,7 @@ function generateShort(length) {
     for (let i=0; i<length; i++) {
         shortLink += chars.charAt(Math.random()*63)
     }
-    return window.location.hostname + shortLink
+    return shortLink
 }
 
 function validURL(str) {

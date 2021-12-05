@@ -24,15 +24,24 @@ app.use(express.static(__dirname + '/static'))
 
 // get the main page
 app.get('/', (req, res)=>{
-    res.redirect('https://sm0l.herokuapp.com/shorten')
+    newHost = req.protocol + '://' + req.get('host')
+    res.redirect(newHost+'/shorten')
 })
 
 // find short link in database then redirect to original
 app.get('/:short', async (req, res)=>{
+    if (req.params.short === 'favicon.ico') return
     original = await link.findOne(
         { short: req.params.short }
     )
-    res.redirect(original['original'])
+    if (original===null){
+        res.send('not a valud link')
+    }
+    res.redirect(302, 'http://'+original['original'])
+})
+
+app.get('*', (req, res)=>{
+    res.send('page not found')
 })
 
 // connecting to database
@@ -42,14 +51,13 @@ mongoose.connect(URI, {
 const db = mongoose.connection
 
 db.on('error', ()=>{
-    console.log('error occured connecting to db')
-})
-
-app.listen(PORT, ()=>{
-    console.log('listening on port:', PORT)
+    console.log('error occured connecting to database')
 })
 
 // starting server
 db.once('open', ()=>{
-    console.log('connected to db')
+    console.log('connected to database')
+    app.listen(PORT, ()=>{
+        console.log('listening on port:', PORT)
+    })
 })
