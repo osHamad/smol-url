@@ -37,7 +37,7 @@ app.get('/:short', async (req, res)=>{
     if (original===null){
         res.send('not a valud link')
     }
-    res.redirect(302, 'http://'+original['original'])
+    res.redirect(302, 'https://'+original['original'])
 })
 
 app.get('*', (req, res)=>{
