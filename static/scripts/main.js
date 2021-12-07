@@ -1,11 +1,18 @@
 
-document.getElementById('converter').addEventListener('click', ()=>{
-    const originalLink = document.getElementById('input').value
+document.getElementById('button-convert').addEventListener('click', ()=>{
+    const originalLink = document.getElementById('input-original-link').value
     const resp = document.getElementById('response')
-    if (!validURL(originalLink)) return resp.innerText = 'not valid'
+    if (!validURL(originalLink)) return resp.innerText = 'Invalid Link'
     const shortLink = generateShort(4)
+    const newUrl = resp.innerText=window.location.protocol+'//'+window.location.host+'/'+shortLink
     axios.post('/shorten', {original:originalLink, short:shortLink})
-        .then(resp.innerText=window.location.protocol+'//'+window.location.host+'/'+shortLink)
+        .then(newUrl)
+    copyToClipboard(newUrl)
+})
+
+document.getElementById('button-copy').addEventListener('click', ()=>{
+    let shortLink = document.getElementById('response').innerHTML
+    copyToClipboard(shortLink)
 })
 
 function generateShort(length) {
@@ -25,4 +32,13 @@ function validURL(str) {
       '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
       '(\\#[-a-z\\d_]*)?$','i') // fragment locator
     return !!pattern.test(str)
+}
+
+function copyToClipboard(textCopy) {
+    navigator.clipboard.writeText(textCopy)
+    document.getElementById("message-copied").style.display = "flex"
+    
+    setTimeout( ()=>{
+        document.getElementById("message-copied").style.display = "none"
+    }, 2000)
 }
