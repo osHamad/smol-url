@@ -5,7 +5,6 @@ const shortenRouter = require('./routes/shortener')
 const linkRouter = require('./routes/links')
 
 // setting up environment
-require('dotenv').config()
 const URI = process.env.URI
 const PORT = process.env.PORT || 5000
 
