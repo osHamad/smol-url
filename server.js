@@ -58,7 +58,9 @@ db.on('error', ()=>{
 // starting server
 db.once('open', ()=>{
     console.log('connected to database')
-    app.listen(PORT, ()=>{
-        console.log('listening on port:', PORT)
-    })
+    
+})
+
+app.listen(PORT, ()=>{
+    console.log('listening on port:', PORT)
 })
