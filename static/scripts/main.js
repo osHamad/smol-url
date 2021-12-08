@@ -4,7 +4,7 @@ document.getElementById('button-convert').addEventListener('click', ()=>{
     const resp = document.getElementById('response')
     if (!validURL(originalLink)) return resp.innerText = 'Invalid Link'
     const shortLink = generateShort(4)
-    const newUrl = resp.innerText=window.location.protocol+'//'+window.location.host+'/'+shortLink
+    const newUrl = resp.innerText=window.location.protocol+'//'+window.location.host+'/l/'+shortLink
     axios.post('/shorten', {original:originalLink, short:shortLink})
         .then(newUrl)
     copyToClipboard(newUrl)

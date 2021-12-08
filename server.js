@@ -1,8 +1,8 @@
 // importing requirements for server
 const express = require('express')
 const mongoose = require('mongoose')
+const shortenRouter = require('./routes/shortener')
 const linkRouter = require('./routes/links')
-const link = require('./models/shortLink.model')
 
 // setting up environment
 require('dotenv').config()
@@ -14,7 +14,8 @@ const app = express()
 
 // uses
 app.use(express.json())
-app.use('/shorten', linkRouter)
+app.use('/shorten', shortenRouter)
+app.use('/l', linkRouter)
 
 // set view engine to ejs
 app.set('views', __dirname + '/views')
@@ -24,20 +25,7 @@ app.use(express.static(__dirname + '/static'))
 
 // get the main page
 app.get('/', (req, res)=>{
-    newHost = req.protocol + '://' + req.get('host')
-    res.redirect(newHost+'/shorten')
-})
-
-// find short link in database then redirect to original
-app.get('/:short', async (req, res)=>{
-    if (req.params.short === 'favicon.ico') return
-    original = await link.findOne(
-        { short: req.params.short }
-    )
-    if (original===null){
-        res.send('not a valud link')
-    }
-    res.redirect(302, 'http://'+original['original'])
+    res.redirect('/shorten')
 })
 
 app.get('*', (req, res)=>{
