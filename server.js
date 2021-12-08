@@ -24,8 +24,9 @@ app.use(express.static(__dirname + '/static'))
 
 // get the main page
 app.get('/', (req, res)=>{
-    newHost = req.protocol + '://' + req.get('host')
-    res.redirect(newHost+'/shorten')
+    // newHost = req.protocol + '://' + req.get('host')
+    // res.redirect(newHost+'/shorten')
+    res.send('working now')
 })
 
 // find short link in database then redirect to original
@@ -37,7 +38,7 @@ app.get('/:short', async (req, res)=>{
     if (original===null){
         res.send('not a valud link')
     }
-    res.redirect(302, 'https://'+original['original'])
+    res.redirect(302, 'http://'+original['original'])
 })
 
 app.get('*', (req, res)=>{
