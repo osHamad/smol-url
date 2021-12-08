@@ -24,9 +24,8 @@ app.use(express.static(__dirname + '/static'))
 
 // get the main page
 app.get('/', (req, res)=>{
-    // newHost = req.protocol + '://' + req.get('host')
-    // res.redirect(newHost+'/shorten')
-    res.send('working now')
+    newHost = req.protocol + '://' + req.get('host')
+    res.redirect(newHost+'/shorten')
 })
 
 // find short link in database then redirect to original
@@ -51,14 +50,13 @@ mongoose.connect(URI, {
 })
 const db = mongoose.connection
 
-db.on('error', ()=>{
-    console.log('error occured connecting to database')
-})
-
 // starting server
 db.once('open', ()=>{
     console.log('connected to database')
-    
+})
+
+db.on('error', ()=>{
+    console.log('error occured connecting to database')
 })
 
 app.listen(PORT, ()=>{
