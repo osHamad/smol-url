@@ -33,17 +33,17 @@ app.get('*', (req, res)=>{
 
 // connecting to database
 mongoose.connect(URI, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 const db = mongoose.connection
+db.on('error', ()=>{
+    console.log('error occured connecting to database')
+})
 
 // starting server
 db.once('open', ()=>{
     console.log('connected to database')
-})
-
-db.on('error', ()=>{
-    console.log('error occured connecting to database')
 })
 
 app.listen(PORT, ()=>{
