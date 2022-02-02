@@ -8,10 +8,10 @@ const linkRouter = express.Router()
 // find short link in database then redirect to original
 linkRouter.get('/:short', async (req, res)=>{
     original = await shortLink.findOne({ short: req.params.short })
-    if (original['original']).startsWith('https://') || original['original']).startsWith('http://')) {
-        res.redirect(302, original['original'])
+    if (original['original'].startsWith('https://') || original['original'].startsWith('http://')) {
+        res.redirect(original['original'])
     } else {
-        res.redirect(302, 'http://'+original['original'])
+        res.redirect('http://'+original['original'])
     }
 })
 
