@@ -1,38 +1,48 @@
-
-document.getElementById('button-convert').addEventListener('click', ()=>{
-    const originalLink = document.getElementById('input-original-link').value
-    const resp = document.getElementById('response')
-    if (!validURL(originalLink)) return resp.innerText = 'Invalid Link'
-    const shortLink = generateShort(4)
-    const newUrl = resp.innerText=window.location.protocol+'//'+window.location.host+'/l/'+shortLink
-    axios.post('/shorten', {original:originalLink, short:shortLink})
-        .then(newUrl)
-    copyToClipboard(newUrl)
+document.getElementById('button-convert-basic').addEventListener('click', ()=>{
+    let originalLink = document.getElementById('input-original-link-basic')
+    axios.post('/shorten/basic', {url:originalLink.value})
+        .then((res)=>{
+            if (res.data.status == 'fail') {
+                originalLink.value = res.data.message
+            }
+            else {
+                copyToClipboard(res.data.url)
+                originalLink.value = res.data.url
+            }
+        })
 })
 
-document.getElementById('button-copy').addEventListener('click', ()=>{
-    let shortLink = document.getElementById('response').innerHTML
-    copyToClipboard(shortLink)
+document.getElementById('button-convert-custom').addEventListener('click', ()=>{
+    const originalLink = document.getElementById('input-original-link-custom').value
+    const shortLink = document.getElementById('input-custom-link').value
+    axios.post('/shorten/custom', {url:originalLink, short:shortLink})
+        .then((res)=>{
+            if (res.data.status == 'fail') {
+                originalLink.textContent = res.data.message
+            }
+            else {
+                copyToClipboard(res.data.url)
+                originalLink.textContent = res.data.url
+            }
+        })
 })
 
-function generateShort(length) {
-    let shortLink = ''
-    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-    for (let i=0; i<length; i++) {
-        shortLink += chars.charAt(Math.random()*63)
-    }
-    return shortLink
-}
+document.getElementById('button-convert-secure').addEventListener('click', ()=>{
+    const originalLink = document.getElementById('input-original-link-secure').value
+    const question = document.getElementById('security-question').value
+    const answer = document.getElementById('security-answer').value
+    axios.post('/shorten/secure', {url:originalLink, question:question, answer:answer})
+        .then((res)=>{
+            if (res.data.status == 'fail') {
+                originalLink.textContent = res.data.message
+            }
+            else {
+                copyToClipboard(res.data.url)
+                originalLink.textContent = res.data.url
+            }
+        })
+})
 
-function validURL(str) {
-    var pattern = new RegExp(
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-      '(\\#[-a-z\\d_]*)?$','i') // fragment locator
-    return !!pattern.test(str)
-}
 
 function copyToClipboard(textCopy) {
     navigator.clipboard.writeText(textCopy)
@@ -42,3 +52,29 @@ function copyToClipboard(textCopy) {
         document.getElementById("message-copied").style.display = "none"
     }, 2000)
 }
+
+function displayShortener(whatToDisplay) {
+    let basic = document.getElementById("basic-shortener")
+    let custom = document.getElementById("custom-shortener")
+    let secure = document.getElementById("secure-shortener")
+
+    if (whatToDisplay == "basic") {
+        basic.style.display = "block"
+        custom.style.display = "none"
+        secure.style.display = "none"
+    }
+    else if (whatToDisplay == "custom") {
+        custom.style.display = "block"
+        basic.style.display = "none"
+        secure.style.display = "none"
+    }
+    else if (whatToDisplay == "secure") {
+        secure.style.display = "block"
+        basic.style.display = "none"
+        custom.style.display = "none"
+    }
+}
+
+document.getElementById("show-basic").addEventListener('click', ()=>{displayShortener('basic')})
+document.getElementById("show-custom").addEventListener('click', ()=>{displayShortener('custom')})
+document.getElementById("show-secure").addEventListener('click', ()=>{displayShortener('secure')})

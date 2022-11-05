@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const shortSchema = new Schema (
     {
-        original: {
+        url: {
             type: String,
             required: true
         },
@@ -14,7 +14,53 @@ const shortSchema = new Schema (
             type: String,
             required: true,
             unique: true
+        },
+
+        userID: {
+            type: String,
+            default: null
+        },
+
+        dateCreated: {
+            type: Date,
+            required: true
+        },
+
+        tier: {
+            type: String,
+            default: "basic"
+        },
+
+        expiry: {
+            type: Date,
+            default: null
+        },
+
+        security: {
+            question: {
+                type: String
+            },
+
+            answer: {
+                type: String
+            }
+        },
+
+        clicks: {
+            amount: {
+                type: Number,
+                default: 0
+            },
+
+            locations: {
+                type: Array,
+            },
+
+            dates: {
+                type: Array,
+            }
         }
+
     }
 )
 

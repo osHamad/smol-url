@@ -5,25 +5,99 @@ const shortLink = require('../models/shortLink.model')
 // create express router
 const shortenRouter = express.Router()
 
-// render main page
-shortenRouter.get('/', (req, res)=>{
-    res.render('index.ejs')
-})
+function validURL(str) {
+    var pattern = new RegExp(
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i') // fragment locator
+    return pattern.test(str)
+}
 
 // create short schema to send to database
-shortenRouter.post('/', (req, res)=>{
-    const link = new shortLink (
-        {
-            original: req.body.original,
-            short: req.body.short
+shortenRouter.post('/basic', (req, res) => {
+    console.log(req.session.userId)
+    if (!validURL(req.body.url)) {
+        res.send({status: "fail", message: "invalid link"})
+    } else {
+        let newURL = ''
+        chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+        for (let i = 0; i < 5; i++) {
+            newURL += chars.charAt(Math.random() * 62)
         }
-    )
 
-    // save link to database
-    link.save((err)=>{
-        if (err) return console.log('500 error:', err)
-        res.send('new link added:'+req.body.short)
-    })
+        const link = new shortLink (
+            {
+                url: req.body.url,
+                short: newURL,
+                userID: req.session.userId,
+                dateCreated: new Date(),
+                tier: "basic"
+            }
+        )
+
+        // save link to database
+        link.save((err)=>{
+            if (err) return console.log('500 error:', err)
+            res.send({url: 'http://localhost:2222/' + newURL, status: "success"})
+        })
+    }
+})
+
+
+shortenRouter.post('/secure', (req, res)=>{
+    if (!validURL(req.body.url)) {
+        res.send({status: "fail", message: "invalid link"})
+    } else {
+        let newURL = ''
+        chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+        for (let i = 0; i < 5; i++) {
+            newURL += chars.charAt(Math.random() * 62)
+        }
+
+        const link = new shortLink (
+            {
+                url: req.body.url,
+                short: newURL,
+                userID: req.session.userId,
+                dateCreated: new Date(),
+                tier: "secure",
+                'security.question': req.body.question,
+                'security.answer': req.body.answer
+            }
+        )
+
+        // save link to database
+        link.save((err)=>{
+            if (err) return console.log('500 error:', err)
+            res.send({url: 'http://localhost:2222/' + newURL, status: "success"})
+        })
+    }
+})
+
+
+shortenRouter.post('/custom', (req, res)=>{
+    if (!validURL(req.body.url)) {
+        res.send({status: "fail", message: "invalid link"})
+    } else {
+
+        const link = new shortLink (
+            {
+                url: req.body.url,
+                short: req.body.short,
+                userID: req.session.userId,
+                dateCreated: new Date(),
+                tier: 'custom',
+            }
+        )
+
+        // save link to database
+        link.save((err)=>{
+            if (err) return console.log('500 error:', err)
+            res.send({url: 'http://localhost:2222/' + req.body.short, status: "success"})
+        })
+    }
 })
 
 // export the router
