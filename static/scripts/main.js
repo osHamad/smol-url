@@ -37,21 +37,11 @@ document.getElementById('button-convert-secure').addEventListener('click', ()=>{
                 originalLink.textContent = res.data.message
             }
             else {
-                copyToClipboard(res.data.url)
+                navigator.clipboard.writeText(res.data.url)
                 originalLink.textContent = res.data.url
             }
         })
 })
-
-
-function copyToClipboard(textCopy) {
-    navigator.clipboard.writeText(textCopy)
-    document.getElementById("message-copied").style.display = "flex"
-    
-    setTimeout( ()=>{
-        document.getElementById("message-copied").style.display = "none"
-    }, 2000)
-}
 
 function displayShortener(whatToDisplay) {
     let basic = document.getElementById("basic-shortener")
@@ -73,6 +63,14 @@ function displayShortener(whatToDisplay) {
         basic.style.display = "none"
         custom.style.display = "none"
     }
+}
+
+function alertMessage(message, style) {
+    document.getElementById("message-copied").style.display = "flex"
+    
+    setTimeout( ()=>{
+        document.getElementById("message-copied").style.display = "none"
+    }, 2000)
 }
 
 document.getElementById("show-basic").addEventListener('click', ()=>{displayShortener('basic')})

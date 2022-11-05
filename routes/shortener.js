@@ -77,9 +77,12 @@ shortenRouter.post('/secure', (req, res)=>{
 })
 
 
-shortenRouter.post('/custom', (req, res)=>{
+shortenRouter.post('/custom', async (req, res)=>{
+    const existingLink = await shortLink.find({short: req.body.short})
     if (!validURL(req.body.url)) {
         res.send({status: "fail", message: "invalid link"})
+    } else if (existingLink) {
+        res.send({status: "fail", message: "link is taken"})
     } else {
 
         const link = new shortLink (

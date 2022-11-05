@@ -15,16 +15,3 @@ body {
   flex-direction: column;
 }
 
-#bottom {
-  background-color: rgb(19, 231, 161);
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column;
-}
-
-#section-shorten-link {
-  height: 50%;
-  width: 80%;
-}
