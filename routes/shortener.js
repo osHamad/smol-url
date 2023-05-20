@@ -5,6 +5,10 @@ const shortLink = require('../models/shortLink.model')
 // create express router
 const shortenRouter = express.Router()
 
+const dotenv = require('dotenv')
+dotenv.config()
+let shortLinkURL = process.env.SHORT_LINK
+
 function validURL(str) {
     var pattern = new RegExp(
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
@@ -40,7 +44,7 @@ shortenRouter.post('/basic', (req, res) => {
         // save link to database
         link.save((err)=>{
             if (err) return console.log('500 error:', err)
-            res.send({url: 'https://smolr.onrender.com' + newURL, status: "success"})
+            res.send({url: shortLinkURL + newURL, status: "success"})
         })
     }
 })
@@ -71,7 +75,7 @@ shortenRouter.post('/secure', (req, res)=>{
         // save link to database
         link.save((err)=>{
             if (err) return console.log('500 error:', err)
-            res.send({url: 'https://smolr.onrender.com' + newURL, status: "success"})
+            res.send({url: shortLinkURL + newURL, status: "success"})
         })
     }
 })
@@ -98,7 +102,7 @@ shortenRouter.post('/custom', async (req, res)=>{
         // save link to database
         link.save((err)=>{
             if (err) return console.log('500 error:', err)
-            res.send({url: 'https://smolr.onrender.com' + req.body.short, status: "success"})
+            res.send({url: shortLinkURL + req.body.short, status: "success"})
         })
     }
 })
