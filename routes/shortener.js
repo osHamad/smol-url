@@ -40,7 +40,7 @@ shortenRouter.post('/basic', (req, res) => {
         // save link to database
         link.save((err)=>{
             if (err) return console.log('500 error:', err)
-            res.send({url: 'http://localhost:2222/' + newURL, status: "success"})
+            res.send({url: 'https://smolr.onrender.com' + newURL, status: "success"})
         })
     }
 })
@@ -71,7 +71,7 @@ shortenRouter.post('/secure', (req, res)=>{
         // save link to database
         link.save((err)=>{
             if (err) return console.log('500 error:', err)
-            res.send({url: 'http://localhost:2222/' + newURL, status: "success"})
+            res.send({url: 'https://smolr.onrender.com' + newURL, status: "success"})
         })
     }
 })
@@ -98,7 +98,7 @@ shortenRouter.post('/custom', async (req, res)=>{
         // save link to database
         link.save((err)=>{
             if (err) return console.log('500 error:', err)
-            res.send({url: 'http://localhost:2222/' + req.body.short, status: "success"})
+            res.send({url: 'https://smolr.onrender.com' + req.body.short, status: "success"})
         })
     }
 })
