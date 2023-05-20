@@ -49,6 +49,8 @@ app.get('*', (req, res)=>{
     res.send('page not found')
 })
 
+mongoose.set('strictQuery', true)
+
 // connecting to database
 mongoose.connect(URI, {
     useNewUrlParser: true,

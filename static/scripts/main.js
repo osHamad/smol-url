@@ -6,7 +6,7 @@ document.getElementById('button-convert-basic').addEventListener('click', ()=>{
                 originalLink.value = res.data.message
             }
             else {
-                copyToClipboard(res.data.url)
+                navigator.clipboard.writeText(res.data.url)
                 originalLink.value = res.data.url
             }
         })
@@ -21,7 +21,7 @@ document.getElementById('button-convert-custom').addEventListener('click', ()=>{
                 originalLink.textContent = res.data.message
             }
             else {
-                copyToClipboard(res.data.url)
+                navigator.clipboard.writeText(res.data.url)
                 originalLink.textContent = res.data.url
             }
         })

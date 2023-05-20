@@ -4,8 +4,7 @@
   "description": "a simple web url shortener",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "start2": "nodemon redirector.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
