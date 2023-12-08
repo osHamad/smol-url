@@ -1,4 +1,4 @@
-# File Storage Application
+# URL Shortener
 ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
 
 Shorten your URLs easily with smol-url! This lightweight URL shortener is designed to be simple, fast, and efficient. It helps you create concise and shareable links, making it easier to manage and share URLs.
